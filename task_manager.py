@@ -81,6 +81,9 @@ def update_task(id, description=None, status: str = None):
         print("This id cannot be found. Pleas try again.")
 
 
+update_task(5, status="Done")
+
+
 # delete task with provided id
 
 
@@ -88,8 +91,9 @@ def delete_task(id):
     try:
         task_index = id-1
         currentData = open_tasks()
-        currentData["tasks"].pop(task_index)
+        result = currentData["tasks"].pop(task_index)
         save_tasks(currentData)
+        print(f"{result} has been deleted")
     except:
         print("This id cannot be found, please try again.")
 
