@@ -19,7 +19,7 @@ def update_and_delete_table(task):
     ]
     table = tabulate(data, headers=headers, tablefmt="grid")
     return table
-# create table on CLI
+# create table displayed
 
 
 def create_tables(task_lst):
@@ -132,6 +132,8 @@ def delete_task(id):
     except:
         print("This id cannot be found, please try again.")
 
+# List all tasks
+
 
 def list_all():
     currentData = open_tasks()
@@ -140,6 +142,8 @@ def list_all():
         print(table)
     else:
         print("There are no tasks yet. Please add a new task.")
+
+# list task that is done
 
 
 def list_done():
@@ -152,6 +156,8 @@ def list_done():
     else:
         print("Tasks cannot be found.")
 
+# list task that is todo
+
 
 def list_todo():
     currentData = open_tasks()
@@ -162,6 +168,8 @@ def list_todo():
         print(table)
     else:
         print("Tasks cannot be found.")
+
+# list task that is in-progress
 
 
 def list_in_progress():
