@@ -1,8 +1,40 @@
 import json
 import os
 from datetime import datetime
-
+from tabulate import tabulate
 file_path = "task.json"
+headers = ["Id", "Description", "Status", "CreatAt", "UpdatedAt"]
+
+
+# update and delete data displayed
+def update_and_delete_table(task):
+    data = [
+        [
+            task["id"],
+            task["description"],
+            task["status"],
+            task["createdAt"],
+            task["updatedAt"]
+        ]
+    ]
+    table = tabulate(data, headers=headers, tablefmt="grid")
+    return table
+# create table on CLI
+
+
+def create_tables(task_lst):
+    data = []
+    for task in task_lst:
+        data.append(
+            [task["id"],
+             task["description"],
+             task["status"],
+             task["createdAt"],
+             task["updatedAt"]]
+        )
+    table = tabulate(data, headers=headers, tablefmt="grid")
+    return table
+
 
 # chechk if the file exists
 if not os.path.exists(file_path):
@@ -43,23 +75,24 @@ def add_new_tasks(description: str):
         "updatedAt": None
     }
     currentData["tasks"].append(new_task)
-
     save_tasks(currentData)
-
+    # create a table
+    table = update_and_delete_table(new_task)
+    print(table)
 
 # Upadate task with provided id
 
-def update_task(id, description=None, status: str = None):
+
+def update_task(id, description: str = None, status: str = None):
     currentData = open_tasks()
     task_index = id-1
-    status = status.lower()
     status_allowed = ["todo", "done", "in-progress"]
     try:
         tasks_dict = {
             task["id"]: task for task in currentData["tasks"] if task["id"] == id}
         task = tasks_dict.get(id)  # 用 id 查找
 
-        if status in status_allowed:
+        if status in status_allowed or status is None:
             update_description = description if description is not None else task["description"]
             update_status = status if status is not None else task["status"]
         else:
@@ -75,13 +108,13 @@ def update_task(id, description=None, status: str = None):
         currentData["tasks"].pop(task_index)
         currentData["tasks"].insert(task_index, update_task)
         save_tasks(currentData)
+        # create a table
+        table = update_and_delete_table(update_task)
+        print(table)
     except ValueError as e:
         print(e)
     except Exception:
         print("This id cannot be found. Pleas try again.")
-
-
-update_task(5, status="Done")
 
 
 # delete task with provided id
@@ -91,9 +124,11 @@ def delete_task(id):
     try:
         task_index = id-1
         currentData = open_tasks()
-        result = currentData["tasks"].pop(task_index)
+        delete_data = currentData["tasks"].pop(task_index)
         save_tasks(currentData)
-        print(f"{result} has been deleted")
+        # create a table that have been deleted
+        table = update_and_delete_table(delete_data)
+        print(table)
     except:
         print("This id cannot be found, please try again.")
 
@@ -101,8 +136,8 @@ def delete_task(id):
 def list_all():
     currentData = open_tasks()
     if currentData["tasks"]:
-        for task in currentData["tasks"]:
-            print(task)
+        table = create_tables(currentData["tasks"])
+        print(table)
     else:
         print("There are no tasks yet. Please add a new task.")
 
@@ -112,8 +147,8 @@ def list_done():
     task_lst = [task for task in currentData["tasks"]
                 if task["status"] == "done"]
     if task_lst:
-        for task in task_lst:
-            print(task)
+        table = create_tables(task_lst)
+        print(table)
     else:
         print("Tasks cannot be found.")
 
@@ -123,8 +158,8 @@ def list_todo():
     task_lst = [task for task in currentData["tasks"]
                 if task["status"] == "todo"]
     if task_lst:
-        for task in task_lst:
-            print(task)
+        table = create_tables(task_lst)
+        print(table)
     else:
         print("Tasks cannot be found.")
 
@@ -134,7 +169,7 @@ def list_in_progress():
     task_lst = [task for task in currentData["tasks"]
                 if task["status"] == "in-progress"]
     if task_lst:
-        for task in task_lst:
-            print(task)
+        table = create_tables(task_lst)
+        print(table)
     else:
         print("Tasks cannot be found.")
