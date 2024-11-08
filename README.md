@@ -44,10 +44,6 @@ cd To-do-list
 python command.py
 ```
 
-```shell
-
-```
-
 ### Usage:
 
 - **Add a task**
