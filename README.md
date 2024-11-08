@@ -33,7 +33,7 @@ This project is a command-line interface (CLI) application that allows users to 
 
 To get started with this project, clone the repository to your local machine:
 
-```
+```shell
 git clone https://github.com/HsinLing-Chang/To-do-list.git
 ```
 
@@ -41,19 +41,21 @@ git clone https://github.com/HsinLing-Chang/To-do-list.git
 
 - **Add a task**
 
-  ```
+  ```shell
   python command.py add "Say Hi to a stranger"
   ```
 
 - **List a task**
 
-- List all tasks
-  ```
+  - List all tasks
+
+  ```shell
   python command.py list
   ```
-- List tasks by status
 
-  ```
+  - List tasks by status
+
+  ```shell
   # Tasks that are marked as todo
   python command.py list todo
 
@@ -68,36 +70,35 @@ git clone https://github.com/HsinLing-Chang/To-do-list.git
 
   By providing the task ID, users can update the description, the status, or both.
 
-  ```
+  ```shell
   # Update description of the task
   python command.py updata 1 "Say Hi to two stranger"
 
   # Update status of the task
   python command.py update 1 -mark done
 
-  #Update both
+  # Update both
   python command.py update 1 "Say Hi to two stranger" -mark done
   ```
 
 - **Delete a task**
 
-  ```
+  ```shell
   python command.py delete 1
   ```
 
 ## Sample JSON structure
 
-```
+```json
 {
   "tasks": [
-      {
-          "id":<span style="color: rgb(119, 202, 174);">1</span>,
-          "description": "Say Hi to a stranger",
-          "status": "todo" ,
-          "createdAt":  "08/11/2024 11:04:07"
-          "updatedAt": null
-      },
-
+    {
+      "id": 1,
+      "description": "Say Hi to a stranger",
+      "status": "todo",
+      "createdAt": "08/11/2024 11:04:07",
+      "updatedAt": null
+    }
   ]
 }
 ```
