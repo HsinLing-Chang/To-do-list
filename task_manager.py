@@ -6,7 +6,7 @@ file_path = "task.json"
 headers = ["Id", "Description", "Status", "CreatAt", "UpdatedAt"]
 
 
-# update and delete data displayed
+# Update and delete data displayed
 def update_and_delete_table(task):
     data = [
         [
@@ -19,7 +19,7 @@ def update_and_delete_table(task):
     ]
     table = tabulate(data, headers=headers, tablefmt="grid")
     return table
-# create table displayed
+# Create table displayed
 
 
 def create_tables(task_lst):
@@ -36,7 +36,7 @@ def create_tables(task_lst):
     return table
 
 
-# chechk if the file exists
+# Chechk if the file exists
 if not os.path.exists(file_path):
     data = {
         "tasks": []
@@ -45,7 +45,7 @@ if not os.path.exists(file_path):
     with open(file_path, "w") as file:
         json.dump(data, file, indent=4)
 
-# open tasks
+# Open tasks
 
 
 def open_tasks():
@@ -56,14 +56,14 @@ def open_tasks():
         return []
 
 
-# save tasks
+# Save tasks
 
 def save_tasks(tasks):
     with open(file_path, "w") as file:
         json.dump(tasks, file, indent=4)
 
 
-# add new task
+# Add new task
 def add_new_tasks(description: str):
     currentData = open_tasks()
     id = len(currentData["tasks"]) + 1
@@ -76,7 +76,7 @@ def add_new_tasks(description: str):
     }
     currentData["tasks"].append(new_task)
     save_tasks(currentData)
-    # create a table
+    # Create a table
     table = update_and_delete_table(new_task)
     print(table)
 
@@ -90,7 +90,7 @@ def update_task(id, description: str = None, status: str = None):
     try:
         tasks_dict = {
             task["id"]: task for task in currentData["tasks"] if task["id"] == id}
-        task = tasks_dict.get(id)  # 用 id 查找
+        task = tasks_dict.get(id)
 
         if status in status_allowed or status is None:
             update_description = description if description is not None else task["description"]
@@ -117,7 +117,7 @@ def update_task(id, description: str = None, status: str = None):
         print("This id cannot be found. Pleas try again.")
 
 
-# delete task with provided id
+# Delete task with provided id
 
 
 def delete_task(id):
@@ -125,8 +125,11 @@ def delete_task(id):
         task_index = id-1
         currentData = open_tasks()
         delete_data = currentData["tasks"].pop(task_index)
+        # Rearrange the IDs
+        for index, task in enumerate(currentData["tasks"]):
+            task["id"] = index+1
         save_tasks(currentData)
-        # create a table that have been deleted
+        # Create a table that have been deleted
         table = update_and_delete_table(delete_data)
         print(table)
     except:

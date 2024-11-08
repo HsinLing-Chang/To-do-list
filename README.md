@@ -29,10 +29,72 @@ This project is a command-line interface (CLI) application that allows users to 
 
 ## Installation and Usage
 
-### Installation
+### Installation:
 
-    To get started with this project, clone the repository to your local machine:
+To get started with this project, clone the repository to your local machine:
+`   git clone https://github.com/HsinLing-Chang/To-do-list.git
+  `
 
-    ```bash
-    git clone https://github.com/HsinLing-Chang/To-do-list.git
-    ```
+### Usage:
+
+- **Add a task**
+
+```
+python command.py add "Say Hi to a stranger"
+```
+
+-**List a task**
+
+- List all tasks
+  ```
+  python command.py list
+  ```
+- List tasks by status
+
+  ```
+  # Tasks that are marked as todo
+  python command.py list todo
+
+  # Tasks that are marked as in-progress
+  python command.py list in-progress
+
+  # Tasks that are marked as done
+  python command.py list done
+  ```
+
+- **Update a task**
+  By providing the task ID, users can update the description, the status, or both.
+
+```
+# Update description of the task
+python command.py updata 1 "Say Hi to two stranger"
+
+# Update status of the task
+python command.py update 1 -mark done
+
+#Update both
+python command.py update 1 "Say Hi to two stranger" -mark done
+```
+
+- **Delete a task**
+
+```
+python command.py delete 1
+```
+
+## Sample JSON structure
+
+```
+{
+  "tasks": [
+      {
+          "id": 1,
+          "description": "Say Hi to a stranger",
+          "status": "todo" ,
+          "createdAt":  "08/11/2024 11:04:07"
+          "updatedAt": null
+      },
+
+  ]
+}
+```

@@ -21,11 +21,11 @@ parser_list.add_argument("status", nargs="?", type=str.lower, choices=[
 # update parser
 parser_update = sub_parser.add_parser(
     "update", help="Update the task with given id, description and status")
-parser_update.add_argument("update", type=int, help="find the task with id")
-parser_update.add_argument("-description", type=str, default=None,
-                           help="update the description of the task")
+parser_update.add_argument("ID", type=int, help="Find the task with id")
+parser_update.add_argument("description", nargs="?", type=str, default=None,
+                           help="Update the description of the task")
 parser_update.add_argument("-mark", type=str.lower, default=None,
-                           choices=["todo", "in-progress", "done"], help="update the status of the task")
+                           choices=["todo", "in-progress", "done"], help="Update the status of the task")
 
 args = parser.parse_args()
 
@@ -48,9 +48,9 @@ elif args.command == "list" and args.status == []:
 if args.command == "update" and not (args.description or args.mark):
     parser.error(
         "At least one of update_description or update_status must be provided.")
-elif args.command == "update" and args.update:
+elif args.command == "update" and args.ID:
     task_manager.update_task(
-        args.update, description=args.description, status=args.mark)
+        args.ID, description=args.description, status=args.mark)
 
 # handling deleting tasks
 if args.command == "delete" and args.delete is not None:
